@@ -1,0 +1,859 @@
+/* ============================================
+   STOCK MANAGER — CSS corrigé
+   Responsive : Mobile + iPad + Desktop
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap');
+
+/* ─── Variables ─────────────────────────────── */
+:root {
+  --bg:        #f0f2f8;
+  --bg2:       #e8ebf4;
+  --bg3:       #dfe3ef;
+  --card:      #ffffff;
+  --border:    rgba(60,70,120,0.10);
+  --accent:    #00b37a;
+  --accent2:   #0077cc;
+  --danger:    #e0294a;
+  --warn:      #f0922b;
+  --text:      #141926;
+  --muted:     #6b728f;
+  --radius:    12px;
+  --shadow:    0 8px 32px rgba(60,70,120,0.10), 0 1px 4px rgba(60,70,120,0.07);
+  --glow:      0 0 24px rgba(0,179,122,0.14);
+  --transition: 0.22s cubic-bezier(.4,0,.2,1);
+}
+
+/* ─── Reset & Base ───────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  /* CORRECTION : empêche le scroll X global */
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'DM Mono', monospace;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  /* CORRECTION : empêche le scroll X sur body */
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,179,122,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(0,119,204,0.05) 0%, transparent 60%);
+}
+
+/* ─── Scrollbar ──────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 99px; }
+
+/* ─── Icons ──────────────────────────────────── */
+.icon-svg {
+  display: inline-flex;
+  width: 1rem;
+  height: 1rem;
+  align-items: center;
+  justify-content: center;
+  vertical-align: -0.15em;
+  margin-right: 0.35rem;
+  flex-shrink: 0;
+}
+
+.icon-svg svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ─── Nav ────────────────────────────────────── */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 64px;
+  background: rgba(240,242,248,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  /* CORRECTION : pas de débordement */
+  width: 100%;
+}
+
+.nav-brand {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-brand span { color: var(--accent); }
+
+.nav-links {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.nav-links a,
+.nav-links a:visited {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: var(--transition);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  /* Touch-friendly */
+  min-height: 40px;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+  background: rgba(0,179,122,0.08);
+  border-color: rgba(0,179,122,0.2);
+  box-shadow: var(--glow);
+}
+
+.nav-links a.active {
+  color: var(--accent);
+  background: rgba(0,179,122,0.12);
+  border-color: rgba(0,179,122,0.3);
+}
+
+/* CORRECTION : Bouton déconnexion — style distinctif */
+.nav-links a.nav-logout {
+  color: var(--danger);
+  border-color: rgba(224,41,74,0.2);
+}
+
+.nav-links a.nav-logout:hover {
+  background: rgba(224,41,74,0.08);
+  border-color: rgba(224,41,74,0.35);
+  box-shadow: none;
+}
+
+/* ─── Page wrapper ───────────────────────────── */
+.page-wrapper {
+  max-width: 1000px;
+  margin: 2.5rem auto;
+  /* CORRECTION : padding horizontal empêche le débordement */
+  padding: 0 1.5rem;
+  animation: fadeUp 0.5s ease both;
+  /* CORRECTION : largeur 100% - padding */
+  width: 100%;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Headings ───────────────────────────────── */
+h1, h2, h3 { font-family: 'Syne', sans-serif; }
+
+h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  margin: 1.5rem 0 1rem;
+}
+
+h2.page-title {
+  font-size: 1.6rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+
+h2.page-title::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 99px;
+  margin: 0.5rem auto 0;
+}
+
+/* ─── Card ───────────────────────────────────── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.4s ease both;
+  /* CORRECTION : ne dépasse jamais */
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ─── Form fields — structure moderne (remplace les <table>) ─── */
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.field-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ─── Inputs ─────────────────────────────────── */
+input[type="text"],
+input[type="number"],
+input[type="password"],
+select {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.88rem;
+  outline: none;
+  transition: var(--transition);
+  -webkit-appearance: none;
+  /* CORRECTION mobile : taille de police ≥ 16px évite le zoom iOS */
+  font-size: max(0.88rem, 16px);
+}
+
+input:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0,179,122,0.12);
+  background: #fff;
+}
+
+input::placeholder { color: var(--muted); }
+
+/* ─── Password wrapper — CORRECTION icône œil mobile ─────────── */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input[type="password"],
+.password-wrapper input[type="text"] {
+  /* CORRECTION : padding-right suffisant pour ne pas chevaucher l'icône */
+  padding-right: 3.2rem;
+  width: 100%;
+}
+
+.password-wrapper button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 3rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition);
+  border-radius: 0 8px 8px 0;
+  /* CORRECTION mobile : zone de clic suffisante */
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.password-wrapper button:hover,
+.password-wrapper button.active {
+  color: var(--accent);
+}
+
+/* Supprimer le style "reset" par défaut des boutons dans les wrappers */
+.password-wrapper button[type="button"]:hover {
+  background: none;
+  border: none;
+  color: var(--accent);
+  transform: none;
+}
+
+/* ─── Buttons ────────────────────────────────── */
+button[type="submit"],
+input[type="submit"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+  letter-spacing: 0.04em;
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(0,179,122,0.25);
+  /* CORRECTION mobile : zone tactile */
+  min-height: 44px;
+}
+
+button[type="submit"]:hover,
+input[type="submit"]:hover {
+  background: #00cc8a;
+  box-shadow: 0 4px 20px rgba(0,179,122,0.40);
+  transform: translateY(-1px);
+}
+
+button[type="reset"],
+button[type="button"]:not(.password-wrapper button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.2rem;
+  border-radius: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.88rem;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  transition: var(--transition);
+  /* CORRECTION mobile : zone tactile */
+  min-height: 44px;
+}
+
+button[type="reset"]:hover,
+button[type="button"]:not(.password-wrapper button):hover {
+  border-color: var(--danger);
+  color: var(--danger);
+  background: rgba(224,41,74,0.06);
+}
+
+/* ─── Form actions (boutons) ─────────────────── */
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* ─── Tables ─────────────────────────────────── */
+/* CORRECTION : toujours entourer les tables de .table-scroll */
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+th {
+  background: var(--bg3);
+  color: var(--accent);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.9rem 1.2rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+td {
+  padding: 0.8rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+  color: var(--text);
+  vertical-align: middle;
+  transition: var(--transition);
+}
+
+tr:last-child td { border-bottom: none; }
+
+tr:hover td { background: rgba(0,179,122,0.04); }
+
+/* ─── Action links dans tables ───────────────── */
+td a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: var(--transition);
+  margin: 0.1rem;
+  /* CORRECTION mobile : zone tactile */
+  min-height: 36px;
+}
+
+td a[href*="modifier"] {
+  color: var(--accent2);
+  border: 1px solid rgba(0,119,204,0.25);
+  background: rgba(0,119,204,0.08);
+}
+
+td a[href*="modifier"]:hover {
+  background: rgba(0,119,204,0.18);
+}
+
+td a[href*="supprimer"] {
+  color: var(--danger);
+  border: 1px solid rgba(224,41,74,0.25);
+  background: rgba(224,41,74,0.07);
+}
+
+td a[href*="supprimer"]:hover {
+  background: rgba(224,41,74,0.16);
+}
+
+/* Cellule actions : toujours sur une ligne */
+.actions-cell {
+  white-space: nowrap;
+}
+
+/* ─── Sort bar ───────────────────────────────── */
+.sort-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1.2rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+input[type="radio"] {
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin-right: 0.25rem;
+}
+
+/* ─── Login page ─────────────────────────────── */
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.login-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--shadow), var(--glow);
+  animation: fadeUp 0.6s ease both;
+}
+
+.login-logo {
+  text-align: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.04em;
+}
+
+.login-subtitle {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin-bottom: 2rem;
+  letter-spacing: 0.05em;
+}
+
+.form-group { margin-bottom: 1.2rem; }
+
+.form-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ─── Alerts ─────────────────────────────────── */
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1.2rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid transparent;
+  animation: slideIn 0.3s ease both;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.alert-success {
+  background: rgba(0,179,122,0.10);
+  border-color: rgba(0,179,122,0.30);
+  color: var(--accent);
+}
+
+.alert-error {
+  background: rgba(224,41,74,0.08);
+  border-color: rgba(224,41,74,0.28);
+  color: var(--danger);
+}
+
+/* ─── Toast ──────────────────────────────────── */
+#toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  padding: 0.9rem 1.4rem;
+  border-radius: 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 500;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all 0.3s cubic-bezier(.4,0,.2,1);
+  pointer-events: none;
+  max-width: 320px;
+  box-shadow: var(--shadow);
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#toast.success {
+  background: rgba(0,179,122,0.12);
+  border: 1px solid rgba(0,179,122,0.35);
+  color: var(--accent);
+}
+
+#toast.error {
+  background: rgba(224,41,74,0.10);
+  border: 1px solid rgba(224,41,74,0.35);
+  color: var(--danger);
+}
+
+/* ─── Search ─────────────────────────────────── */
+.search-wrapper {
+  position: relative;
+  max-width: 100%;
+  margin: 0 auto 1.5rem;
+}
+
+.search-wrapper input {
+  padding-left: 2.8rem;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.search-icon .icon-svg { margin-right: 0; }
+
+/* ─── Badge ──────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.badge-ordinateur { background: rgba(0,119,204,0.12); color: #0077cc; }
+.badge-telephone  { background: rgba(0,179,122,0.12); color: var(--accent); }
+.badge-television { background: rgba(240,146,43,0.15); color: var(--warn); }
+
+/* ─── Empty state ────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--muted);
+}
+
+.empty-state .icon { margin-bottom: 0.75rem; }
+.empty-state .icon .icon-svg { width: 2.3rem; height: 2.3rem; margin-right: 0; }
+.empty-state p { font-size: 0.9rem; }
+.empty-state a { color: var(--accent); }
+
+/* ─── Row animation ──────────────────────────── */
+@keyframes rowHighlight {
+  0%   { background: rgba(0,179,122,0.12); }
+  100% { background: transparent; }
+}
+.row-highlight { animation: rowHighlight 1.5s ease both; }
+
+/* ─── Category icons ─────────────────────────── */
+.cat-icon { font-size: 1.1rem; margin-right: 0.3rem; }
+
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE — TABLET (≤ 900px)
+   ════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .page-wrapper {
+    max-width: 100%;
+    padding: 0 1.2rem;
+    margin: 2rem auto;
+  }
+
+  .nav {
+    padding: 0.75rem 1.2rem;
+    height: auto;
+  }
+
+  .field-row {
+    grid-template-columns: 120px 1fr;
+  }
+
+  .card { padding: 1.5rem 1.2rem; }
+
+  td { font-size: 0.83rem; padding: 0.7rem 0.9rem; }
+  th { padding: 0.75rem 0.9rem; }
+}
+
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE — MOBILE (≤ 640px)
+   ════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+
+  /* ── Nav ── */
+  .nav {
+    padding: 0.6rem 1rem;
+    height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .nav-brand { font-size: 1rem; }
+
+  .nav-links {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 0.2rem;
+    flex-wrap: wrap;
+  }
+
+  .nav-links a {
+    font-size: 0.72rem;
+    padding: 0.35rem 0.65rem;
+    min-height: 38px;
+  }
+
+  /* ── Page ── */
+  .page-wrapper {
+    padding: 0 0.75rem;
+    margin: 1rem auto;
+  }
+
+  h2.page-title {
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  /* ── Card ── */
+  .card {
+    padding: 1.1rem 0.9rem;
+    border-radius: 10px;
+  }
+
+  /* ── Form fields — empilé sur mobile ── */
+  .field-row {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .field-label {
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+
+  /* CORRECTION : font-size 16px pour éviter zoom iOS sur focus */
+  input[type="text"],
+  input[type="number"],
+  input[type="password"],
+  select {
+    font-size: 16px;
+    padding: 0.75rem 1rem;
+  }
+
+  /* ── Form actions — full width sur mobile ── */
+  .form-actions {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .form-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* ── Tables ── */
+  .table-scroll {
+    /* CORRECTION : pas de border-radius qui cache le scroll indicator */
+    border-radius: 0;
+    margin: 0 -0.75rem;
+    width: calc(100% + 1.5rem);
+  }
+
+  table {
+    min-width: 520px;
+    font-size: 0.78rem;
+    border-radius: 0;
+  }
+
+  th, td { padding: 0.55rem 0.75rem; }
+
+  /* Actions sur mobile : wrap si nécessaire */
+  .actions-cell {
+    white-space: normal;
+    min-width: 140px;
+  }
+
+  td a {
+    padding: 0.28rem 0.5rem;
+    font-size: 0.7rem;
+    min-height: 34px;
+    margin: 0.1rem 0;
+  }
+
+  /* ── Sort bar ── */
+  .sort-bar {
+    gap: 0.45rem;
+    padding: 0.85rem;
+    font-size: 0.78rem;
+  }
+
+  /* ── Login ── */
+  .login-container { padding: 0.75rem; }
+
+  .login-box {
+    padding: 1.75rem 1.1rem;
+    border-radius: 12px;
+  }
+
+  .login-logo { font-size: 1.5rem !important; }
+
+  /* ── Toast — pleine largeur sur mobile ── */
+  #toast {
+    bottom: 0.75rem;
+    right: 0.75rem;
+    left: 0.75rem;
+    max-width: 100%;
+    font-size: 0.82rem;
+    text-align: center;
+  }
+
+  /* ── Empty state ── */
+  .empty-state { padding: 2rem 0.75rem; }
+
+  /* ── Search ── */
+  .search-wrapper { margin-bottom: 1rem; }
+}
+
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE — iPad paysage (641px–1024px)
+   ════════════════════════════════════════════════ */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .page-wrapper {
+    padding: 0 1.5rem;
+    margin: 1.5rem auto;
+  }
+
+  .field-row {
+    grid-template-columns: 130px 1fr;
+  }
+
+  .nav { padding: 0 1.5rem; height: 60px; }
+
+  .table-scroll { overflow-x: auto; }
+
+  table { min-width: unset; width: 100%; }
+
+  td a { min-height: 40px; }
+}
